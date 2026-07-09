@@ -5,18 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GetStarted_Scene.unity
     guid: 6888813f2bd9e4521b9b1343abf0c60f
+  - enabled: 1
+    path: Assets/Scenes/MenuPrincipal.unity
+    guid: b9a71be69fe181044ac6986531cd4600
   - enabled: 1
     path: Assets/Scenes/MenuOpciones.unity
     guid: 5454d043c43742a4285ec71f4b598215
   - enabled: 1
     path: Assets/Scenes/MenuCargando.unity
     guid: 80a55c20ff524dc4baa1f0d32c57e4ac
-  - enabled: 1
-    path: Assets/Scenes/MenuPrincipal.unity
-    guid: b9a71be69fe181044ac6986531cd4600
   - enabled: 1
     path: Assets/Scenes/MenuLanguage.unity
     guid: bb00b023b93915246a92b9d4c7f333e3
@@ -26,7 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MenuCreditos.unity
     guid: 3a3df231b8fe6e04b870d617a18029d8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MenuPausa.unity
     guid: 76b3cea9be8a1c54eb0ee359dac2ddfc
   - enabled: 1
