@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class MenuPausa : MonoBehaviour
 {
     public GameObject imgPausa;
+    public InventoryUI inventoryUI;
 
     private bool pausado = false;
 
@@ -43,10 +44,10 @@ public class MenuPausa : MonoBehaviour
 
         pausado = true;
 
+        inventoryUI.CerrarInventario();
         imgPausa.SetActive(true);
 
         Time.timeScale = 0f;
-
 
         // Liberar mouse para los botones del menú
         Cursor.lockState = CursorLockMode.None;

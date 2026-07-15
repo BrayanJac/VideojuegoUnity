@@ -4,12 +4,12 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 15f;
+    public float moveSpeed = 30f;
     public float mouseSensitivity = 0.1f;
     public float gravity = -9.81f;
 
     public Transform playerCamera;
-
+    public bool puedeMoverse = true;
 
     private CharacterController controller;
 
@@ -24,16 +24,16 @@ public class PlayerMovement : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        Debug.Log(moveSpeed);
     }
 
 
 
     void Update()
     {
-        // Si está pausado no mueve jugador ni cámara
-        if (Time.timeScale == 0f)
+        if (!puedeMoverse)
             return;
-
 
 
         // ===== CAMARA =====

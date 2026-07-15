@@ -12,6 +12,8 @@ public class PickupItem : MonoBehaviour
         {
             InventoryManager.Instance.AgregarItem(itemData);
 
+            UIManager.Instance.OcultarTextoRecoger();
+
             Destroy(gameObject);
         }
     }
@@ -21,7 +23,7 @@ public class PickupItem : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             jugadorCerca = true;
-            UIManager.Instance.MostrarTextoRecoger();
+            UIManager.Instance.MostrarTextoRecoger(itemData.nombre);
         }
     }
 

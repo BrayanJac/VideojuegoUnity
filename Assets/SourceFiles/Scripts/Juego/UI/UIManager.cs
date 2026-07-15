@@ -1,11 +1,13 @@
 using UnityEngine;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
     [Header("Mensajes")]
-    public GameObject textoRecoger;
+    public GameObject panelTextoRecoger;
+    public TextMeshProUGUI textoRecoger;
 
     private void Awake()
     {
@@ -20,13 +22,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void MostrarTextoRecoger()
+    public void MostrarTextoRecoger(string nombreObjeto)
     {
-        textoRecoger.SetActive(true);
+        textoRecoger.text = "Presiona [E] para recoger " + nombreObjeto;
+
+        panelTextoRecoger.SetActive(true);
     }
 
     public void OcultarTextoRecoger()
     {
-        textoRecoger.SetActive(false);
+        panelTextoRecoger.SetActive(false);
     }
 }

@@ -6,16 +6,31 @@ public class InventoryUI : MonoBehaviour
 {
     public GameObject panelInventario;
     public TextMeshProUGUI listaItems;
+    public PlayerMovement playerMovement;
 
     void Update()
     {
         if (Keyboard.current.iKey.wasPressedThisFrame)
         {
-            panelInventario.SetActive(!panelInventario.activeSelf);
+            bool abierto = !panelInventario.activeSelf;
 
-            if (panelInventario.activeSelf)
+            panelInventario.SetActive(abierto);
+
+            if (abierto)
             {
                 ActualizarInventario();
+
+                playerMovement.puedeMoverse = false;
+
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                playerMovement.puedeMoverse = true;
+
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             }
         }
     }
@@ -28,5 +43,25 @@ public class InventoryUI : MonoBehaviour
         {
             listaItems.text += slot.item.nombre + " x" + slot.cantidad + "\n";
         }
+    }
+
+    private void OnEnable()
+    {
+        InventoryManager.OnInventoryChanged += ActualizarInventario;
+    }
+
+    private void OnDisable()
+    {
+        InventoryManager.OnInventoryChanged -= ActualizarInventario;
+    }
+
+    public void CerrarInventario()
+    {
+        panelInventario.SetActive(false);
+
+        playerMovement.puedeMoverse = true;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

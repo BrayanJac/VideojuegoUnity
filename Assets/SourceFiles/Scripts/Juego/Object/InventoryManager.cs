@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
+
+    public static event Action OnInventoryChanged;
 
     public List<InventorySlot> inventario = new List<InventorySlot>();
 
@@ -30,6 +33,7 @@ public class InventoryManager : MonoBehaviour
                 {
                     slot.cantidad++;
                     MostrarInventario();
+                    OnInventoryChanged?.Invoke();
                     return;
                 }
             }
@@ -39,6 +43,7 @@ public class InventoryManager : MonoBehaviour
         inventario.Add(new InventorySlot(item));
 
         MostrarInventario();
+        OnInventoryChanged?.Invoke();
     }
 
     private void MostrarInventario()
