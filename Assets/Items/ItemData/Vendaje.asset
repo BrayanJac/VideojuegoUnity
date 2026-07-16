@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb1e73491a138a446a771d4a24354530, type: 3}
   m_Name: Vendaje
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  id: vendaje
   nombre: Vendaje
   descripcion: Un vendaje cura a las personas.
-  icono: {fileID: 0}
+  icono: {fileID: 21300000, guid: 84ca7bc0ab809ff4b8ce7b1a9d384014, type: 3}
   esApilable: 1

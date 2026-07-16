@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -9,6 +9,8 @@ public class InventoryManager : MonoBehaviour
     public static event Action OnInventoryChanged;
 
     public List<InventorySlot> inventario = new List<InventorySlot>();
+
+    public InventorySlot objetoEquipado;
 
     private void Awake()
     {
@@ -52,9 +54,35 @@ public class InventoryManager : MonoBehaviour
 
         foreach (InventorySlot slot in inventario)
         {
+            if (slot == null)
+            {
+                Debug.LogError("Hay un slot vacío en el inventario");
+                continue;
+            }
+
+            if (slot.item == null)
+            {
+                Debug.LogError("Un slot del inventario no tiene ItemData asignado");
+                continue;
+            }
+
             Debug.Log(slot.item.nombre + " x" + slot.cantidad);
         }
 
+        if (objetoEquipado != null && objetoEquipado.item != null)
+        {
+            Debug.Log("Equipado: " + objetoEquipado.item.nombre);
+        }
+
         Debug.Log("======================");
+    }
+
+    public void EquiparItem(InventorySlot slot)
+    {
+        objetoEquipado = slot;
+
+        EquipmentManager.Instance.Equipar(slot.item);
+
+        Debug.Log("Objeto equipado: " + slot.item.nombre);
     }
 }

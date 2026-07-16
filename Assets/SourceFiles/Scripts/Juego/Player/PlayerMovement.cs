@@ -4,9 +4,10 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 30f;
-    public float mouseSensitivity = 0.1f;
-    public float gravity = -9.81f;
+    private float moveSpeed = 40f;
+    private float mouseSensitivity = 0.1f;
+    private float gravity = -9.81f;
+    private float jumpHeight = 0.5f;
 
     public Transform playerCamera;
     public bool puedeMoverse = true;
@@ -86,9 +87,17 @@ public class PlayerMovement : MonoBehaviour
 
         // ===== GRAVEDAD =====
 
-        if (controller.isGrounded && verticalVelocity < 0)
-            verticalVelocity = -2f;
+        if (controller.isGrounded)
+        {
+            if (verticalVelocity < 0)
+                verticalVelocity = -2f;
 
+            // Salto con la barra espaciadora
+            if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            {
+                verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            }
+        }
 
         verticalVelocity += gravity * Time.deltaTime;
 

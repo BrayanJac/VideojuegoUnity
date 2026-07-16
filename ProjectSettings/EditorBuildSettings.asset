@@ -38,6 +38,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Juego.unity
     guid: be6526ffa49f25642b1cc8656ba9fc90
+  - enabled: 1
+    path: Assets/Scenes/PantallaPerder.unity
+    guid: 82353f0b104f5d647a75d679d803b04f
+  - enabled: 1
+    path: Assets/Scenes/PantallaGanar.unity
+    guid: 635c98b6803b48b4d8e0dae0fa45a49f
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

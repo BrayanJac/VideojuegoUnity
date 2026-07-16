@@ -10,6 +10,12 @@ public class PickupItem : MonoBehaviour
     {
         if (jugadorCerca && Keyboard.current.eKey.wasPressedThisFrame)
         {
+            if (itemData == null)
+            {
+                Debug.LogError("El PickupItem no tiene un ItemData asignado: " + gameObject.name);
+                return;
+            }
+
             InventoryManager.Instance.AgregarItem(itemData);
 
             UIManager.Instance.OcultarTextoRecoger();

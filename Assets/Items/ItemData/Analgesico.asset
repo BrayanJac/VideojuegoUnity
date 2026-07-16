@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb1e73491a138a446a771d4a24354530, type: 3}
   m_Name: Analgesico
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  id: analgesicos
   nombre: Analgesico
   descripcion: Un analgesico alivia el dolor de una persona
-  icono: {fileID: 0}
+  icono: {fileID: 21300000, guid: c43e6269140a0b94db8e0f85d651ac2a, type: 3}
   esApilable: 0

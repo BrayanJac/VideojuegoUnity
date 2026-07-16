@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb1e73491a138a446a771d4a24354530, type: 3}
   m_Name: Adrenalina
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  id: adrenalina
   nombre: Adrenalina
   descripcion: Una adrenalina sirve para revivir personas
-  icono: {fileID: 0}
+  icono: {fileID: 21300000, guid: 941f05978e55ef44c9bb16270c5ab6cf, type: 3}
   esApilable: 1

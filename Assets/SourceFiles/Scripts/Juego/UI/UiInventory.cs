@@ -10,14 +10,12 @@ public class InventoryUI : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current.iKey.wasPressedThisFrame)
+        if (Keyboard.current.iKey.isPressed)
         {
-            bool abierto = !panelInventario.activeSelf;
-
-            panelInventario.SetActive(abierto);
-
-            if (abierto)
+            if (!panelInventario.activeSelf)
             {
+                panelInventario.SetActive(true);
+
                 ActualizarInventario();
 
                 playerMovement.puedeMoverse = false;
@@ -25,8 +23,13 @@ public class InventoryUI : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
-            else
+        }
+        else
+        {
+            if (panelInventario.activeSelf)
             {
+                panelInventario.SetActive(false);
+
                 playerMovement.puedeMoverse = true;
 
                 Cursor.lockState = CursorLockMode.Locked;

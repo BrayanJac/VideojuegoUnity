@@ -6,6 +6,7 @@ public class MenuPausa : MonoBehaviour
 {
     public GameObject imgPausa;
     public InventoryUI inventoryUI;
+    public RadialMenu radialMenu;
 
     private bool pausado = false;
 
@@ -45,6 +46,7 @@ public class MenuPausa : MonoBehaviour
         pausado = true;
 
         inventoryUI.CerrarInventario();
+        radialMenu.CerrarMenu();
         imgPausa.SetActive(true);
 
         Time.timeScale = 0f;
