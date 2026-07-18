@@ -43,6 +43,10 @@ public class MenuPausa : MonoBehaviour
     {
         Debug.Log("PAUSA ACTIVADA");
 
+        Debug.Log("inventoryUI: " + inventoryUI);
+        Debug.Log("radialMenu: " + radialMenu);
+        Debug.Log("imgPausa: " + imgPausa);
+
         pausado = true;
 
         inventoryUI.CerrarInventario();

@@ -1,87 +1,53 @@
+using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(NPCHerido))]
+[RequireComponent(typeof(DetectorJugador))]
 public class NPCHeridoFSM : MonoBehaviour
 {
-    [Header("Estado Actual")]
-    public EstadoHerido estadoActual = EstadoHerido.Esperando;
+    private NPCHerido npc;
+    private DetectorJugador detector;
 
-    void Start()
+    private EstadoBase estadoActual;
+
+    private Dictionary<EstadoHerido, EstadoBase> estados;
+
+    private void Awake()
+    {
+        npc = GetComponent<NPCHerido>();
+        detector = GetComponent<DetectorJugador>();
+
+        estados = new Dictionary<EstadoHerido, EstadoBase>()
+        {
+            { EstadoHerido.Esperando,
+                new EstadoEsperando(this,npc,detector) },
+
+            { EstadoHerido.PideAyuda,
+                new EstadoPideAyuda(this,npc) },
+
+            {
+              EstadoHerido.RecibePrimerosAuxilios,
+                new EstadoRecibePrimerosAuxilios(this, npc)
+            },
+        };
+    }
+
+    private void Start()
     {
         CambiarEstado(EstadoHerido.Esperando);
     }
 
-    void Update()
+    private void Update()
     {
-        switch (estadoActual)
-        {
-            case EstadoHerido.Esperando:
-                EstadoEsperando();
-                break;
-
-            case EstadoHerido.PideAyuda:
-                EstadoPideAyuda();
-                break;
-
-            case EstadoHerido.RecibePrimerosAuxilios:
-                EstadoPrimerosAuxilios();
-                break;
-
-            case EstadoHerido.SigueBombero:
-                EstadoSeguirBombero();
-                break;
-
-            case EstadoHerido.EstadoEmpeora:
-                EstadoEmpeora();
-                break;
-
-            case EstadoHerido.Rescatado:
-                EstadoRescatado();
-                break;
-
-            case EstadoHerido.NoRescatado:
-                EstadoNoRescatado();
-                break;
-        }
+        estadoActual?.Actualizar();
     }
 
-    void CambiarEstado(EstadoHerido nuevoEstado)
+    public void CambiarEstado(EstadoHerido nuevoEstado)
     {
-        estadoActual = nuevoEstado;
-        Debug.Log(name + " -> " + nuevoEstado);
-    }
+        estadoActual?.Salir();
 
-    void EstadoEsperando()
-    {
+        estadoActual = estados[nuevoEstado];
 
-    }
-
-    void EstadoPideAyuda()
-    {
-
-    }
-
-    void EstadoPrimerosAuxilios()
-    {
-
-    }
-
-    void EstadoSeguirBombero()
-    {
-
-    }
-
-    void EstadoEmpeora()
-    {
-
-    }
-
-    void EstadoRescatado()
-    {
-
-    }
-
-    void EstadoNoRescatado()
-    {
-
+        estadoActual.Entrar();
     }
 }

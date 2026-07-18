@@ -5,7 +5,7 @@ using UnityEngine;
 public class TemporizadorPartida : MonoBehaviour
 {
     [Header("Tiempo en segundos")]
-    private float tiempoInicial = 60f;
+    private float tiempoInicial = 180f;
 
     public TMP_Text textoTiempo;
 
