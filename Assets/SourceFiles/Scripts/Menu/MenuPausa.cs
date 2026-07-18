@@ -7,6 +7,7 @@ public class MenuPausa : MonoBehaviour
     public GameObject imgPausa;
     public InventoryUI inventoryUI;
     public RadialMenu radialMenu;
+    public GameObject fondoPausa;
 
     private bool pausado = false;
 
@@ -14,6 +15,7 @@ public class MenuPausa : MonoBehaviour
     void Start()
     {
         imgPausa.SetActive(false);
+        fondoPausa.SetActive(false);
 
         Time.timeScale = 1f;
 
@@ -43,15 +45,12 @@ public class MenuPausa : MonoBehaviour
     {
         Debug.Log("PAUSA ACTIVADA");
 
-        Debug.Log("inventoryUI: " + inventoryUI);
-        Debug.Log("radialMenu: " + radialMenu);
-        Debug.Log("imgPausa: " + imgPausa);
-
         pausado = true;
 
         inventoryUI.CerrarInventario();
         radialMenu.CerrarMenu();
         imgPausa.SetActive(true);
+        fondoPausa.SetActive(true);
 
         Time.timeScale = 0f;
 
@@ -68,6 +67,7 @@ public class MenuPausa : MonoBehaviour
         pausado = false;
 
         imgPausa.SetActive(false);
+        fondoPausa.SetActive(false);
 
         Time.timeScale = 1f;
 

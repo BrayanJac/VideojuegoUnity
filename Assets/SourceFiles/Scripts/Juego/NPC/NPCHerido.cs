@@ -8,7 +8,7 @@ public class NPCHerido : MonoBehaviour
 
     [SerializeField] private float tiempoCritico = 60f;
 
-    [SerializeField] private float radioDeteccion = 20f;
+    [SerializeField] private float radioDeteccion = 90f;
 
     [SerializeField] private float velocidadSeguir = 2f;
 
@@ -32,6 +32,11 @@ public class NPCHerido : MonoBehaviour
         get => progresoCuracion;
         set => progresoCuracion = value;
     }
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip sonidoAyuda;
+
+    public AudioClip SonidoAyuda => sonidoAyuda;
 
     private void Awake()
     {

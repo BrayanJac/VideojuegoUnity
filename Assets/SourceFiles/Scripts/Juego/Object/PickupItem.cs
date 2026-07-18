@@ -5,6 +5,7 @@ public class PickupItem : MonoBehaviour
 {
     public ItemData itemData;
     private bool jugadorCerca = false;
+    public AudioClip sonidoRecoger;
 
     void Update()
     {
@@ -19,6 +20,8 @@ public class PickupItem : MonoBehaviour
             InventoryManager.Instance.AgregarItem(itemData);
 
             UIManager.Instance.OcultarTextoRecoger();
+
+            AudioManager.instancia.ReproducirEfecto(sonidoRecoger);
 
             Destroy(gameObject);
         }

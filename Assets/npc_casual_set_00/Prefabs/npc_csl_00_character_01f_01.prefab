@@ -945,6 +945,7 @@ MonoBehaviour:
   radioDeteccion: 20
   velocidadSeguir: 2
   tiempoCuracion: 5
+  sonidoAyuda: {fileID: 8300000, guid: 000ac24085a6fb44bae0444420351464, type: 3}
 --- !u!114 &-9058768351965131878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -986,7 +987,6 @@ MonoBehaviour:
   textoPorcentaje: {fileID: 6874458192128800353}
   alertaCritica: {fileID: 3331746913483956520}
   jugador: {fileID: 0}
-  distanciaMostrar: 8
 --- !u!114 &-2744578460221308209
 MonoBehaviour:
   m_ObjectHideFlags: 0

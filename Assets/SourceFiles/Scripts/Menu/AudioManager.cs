@@ -33,9 +33,15 @@ public class AudioManager : MonoBehaviour
         {
             musica.Play();
         }
+    }
 
-        Debug.Log("Musica guardada: " + PlayerPrefs.GetFloat("MusicaVolumen"));
-        Debug.Log("Efectos guardados: " + PlayerPrefs.GetFloat("EfectosVolumen"));
+
+    public void ReproducirEfecto(AudioClip sonido)
+    {
+        if (sonido != null && efectos != null)
+        {
+            efectos.PlayOneShot(sonido);
+        }
     }
 
 
@@ -68,5 +74,10 @@ public class AudioManager : MonoBehaviour
         efectos.mute = !activo;
         PlayerPrefs.SetInt("EfectosMute", activo ? 0 : 1);
         PlayerPrefs.Save();
+    }
+
+    public void ReproducirEfectoEnPosicion(AudioClip sonido, Vector3 posicion)
+    {
+        AudioSource.PlayClipAtPoint(sonido, posicion, efectos.volume);
     }
 }

@@ -8335,6 +8335,7 @@ MonoBehaviour:
   radioDeteccion: 20
   velocidadSeguir: 2
   tiempoCuracion: 5
+  sonidoAyuda: {fileID: 8300000, guid: 000ac24085a6fb44bae0444420351464, type: 3}
 --- !u!114 &-6854896024102431712
 MonoBehaviour:
   m_ObjectHideFlags: 0
