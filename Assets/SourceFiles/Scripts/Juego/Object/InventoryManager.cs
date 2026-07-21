@@ -81,8 +81,29 @@ public class InventoryManager : MonoBehaviour
     {
         objetoEquipado = slot;
 
-        EquipmentManager.Instance.Equipar(slot.item);
+        if (EquipmentManager.Instance != null)
+            EquipmentManager.Instance.Equipar(slot.item);
 
         Debug.Log("Objeto equipado: " + slot.item.nombre);
+        OnInventoryChanged?.Invoke();
+    }
+
+    public void ConsumirObjetoEquipado()
+    {
+        if (objetoEquipado == null)
+            return;
+
+        objetoEquipado.cantidad--;
+
+        if (objetoEquipado.cantidad <= 0)
+        {
+            inventario.Remove(objetoEquipado);
+            objetoEquipado = null;
+
+            if (EquipmentManager.Instance != null)
+                EquipmentManager.Instance.Desequipar();
+        }
+
+        OnInventoryChanged?.Invoke();
     }
 }

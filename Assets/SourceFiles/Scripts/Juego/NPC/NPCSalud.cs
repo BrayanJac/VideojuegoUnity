@@ -12,7 +12,7 @@ public class NPCSalud : MonoBehaviour
     [Tooltip("Cada cuantos segundos debe perder el porcentaje indicado.")]
     private float tiempoEntreDanio = 20f;
 
-    [Tooltip("Porcentaje de vida que perderá en ese tiempo.")]
+    [Tooltip("Porcentaje de vida que perderÃ¡ en ese tiempo.")]
     private float porcentajeDanio = 10f;
 
     [Header("UI")]
@@ -26,11 +26,13 @@ public class NPCSalud : MonoBehaviour
     private float distanciaMostrar = 8f;
 
     private float porcentajeVida;
+    public float PorcentajeVida => porcentajeVida;
 
-    // Daño progresivo por segundo
     private float danioPorSegundo;
+    private float multiplicadorDeterioro = 1f;
+    private bool deterioroActivo = true;
+    private bool notificandoMuerte;
 
-    // Triángulo
     private bool visible = true;
     private float tiempoParpadeo;
     private Vector3 posicionInicial;
@@ -39,7 +41,6 @@ public class NPCSalud : MonoBehaviour
     {
         saludActual = saludMaxima;
 
-        // Calcula cuánto daño perderá cada segundo.
         danioPorSegundo =
             (saludMaxima * (porcentajeDanio / 100f)) / tiempoEntreDanio;
 
@@ -54,95 +55,94 @@ public class NPCSalud : MonoBehaviour
 
     void Update()
     {
-        //---------------------------------
-        // VIDA PROGRESIVA
-        //---------------------------------
-
-        saludActual -= danioPorSegundo * Time.deltaTime;
-
-        saludActual = Mathf.Clamp(saludActual, 0, saludMaxima);
-
-        if (saludActual <= 0)
+        if (deterioroActivo)
         {
-            Morir();
-            return;
+            saludActual -= danioPorSegundo * multiplicadorDeterioro * Time.deltaTime;
+            saludActual = Mathf.Clamp(saludActual, 0, saludMaxima);
+
+            if (saludActual <= 0)
+            {
+                Morir();
+                return;
+            }
         }
 
-        //---------------------------------
-        // ACTUALIZAR UI
-        //---------------------------------
-
         ActualizarUI();
+        ActualizarVisibilidadUI();
+        ActualizarAlerta();
+    }
 
-        //---------------------------------
-        // MOSTRAR BARRA
-        //---------------------------------
+    void ActualizarVisibilidadUI()
+    {
+        bool mostrar = false;
 
-        if (canvasBarra != null && jugador != null)
+        if (jugador != null)
         {
             if (porcentajeVida <= 0.5f)
             {
-                canvasBarra.enabled = true;
+                mostrar = true;
             }
             else
             {
                 float distancia =
                     Vector3.Distance(transform.position, jugador.position);
-
-                canvasBarra.enabled = distancia <= distanciaMostrar;
+                mostrar = distancia <= distanciaMostrar;
             }
         }
-
-        //---------------------------------
-        // ALERTA
-        //---------------------------------
-
-        if (alertaCritica != null)
+        else if (porcentajeVida <= 0.5f)
         {
-            if (porcentajeVida <= 0.5f)
+            mostrar = true;
+        }
+
+        if (canvasBarra != null)
+            canvasBarra.enabled = mostrar;
+
+        if (textoPorcentaje != null)
+            textoPorcentaje.gameObject.SetActive(mostrar);
+    }
+
+    void ActualizarAlerta()
+    {
+        if (alertaCritica == null)
+            return;
+
+        if (porcentajeVida <= 0.5f && deterioroActivo)
+        {
+            if (!alertaCritica.activeSelf)
+                alertaCritica.SetActive(true);
+
+            Vector3 pos = posicionInicial;
+            pos.y += Mathf.Sin(Time.time * 4f) * 6f;
+            alertaCritica.transform.localPosition = pos;
+
+            if (porcentajeVida <= 0.3f)
             {
-                if (!alertaCritica.activeSelf)
-                    alertaCritica.SetActive(true);
+                tiempoParpadeo += Time.deltaTime;
 
-                // Movimiento flotante
-                Vector3 pos = posicionInicial;
-                pos.y += Mathf.Sin(Time.time * 4f) * 6f;
-                alertaCritica.transform.localPosition = pos;
-
-                // Parpadeo
-                if (porcentajeVida <= 0.3f)
+                if (tiempoParpadeo >= 0.35f)
                 {
-                    tiempoParpadeo += Time.deltaTime;
-
-                    if (tiempoParpadeo >= 0.35f)
-                    {
-                        visible = !visible;
-                        alertaCritica.SetActive(visible);
-                        tiempoParpadeo = 0f;
-                    }
-                }
-                else
-                {
-                    visible = true;
-
-                    if (!alertaCritica.activeSelf)
-                        alertaCritica.SetActive(true);
+                    visible = !visible;
+                    alertaCritica.SetActive(visible);
+                    tiempoParpadeo = 0f;
                 }
             }
             else
             {
-                alertaCritica.SetActive(false);
+                visible = true;
+
+                if (!alertaCritica.activeSelf)
+                    alertaCritica.SetActive(true);
             }
+        }
+        else
+        {
+            alertaCritica.SetActive(false);
         }
     }
 
     void ActualizarUI()
     {
         porcentajeVida = saludActual / saludMaxima;
-
-        //-----------------------------
-        // Barra
-        //-----------------------------
 
         if (barraVida != null)
         {
@@ -156,24 +156,26 @@ public class NPCSalud : MonoBehaviour
                 barraVida.color = Color.red;
         }
 
-        //-----------------------------
-        // Texto
-        //-----------------------------
-
         if (textoPorcentaje != null)
         {
-            textoPorcentaje.text =
-                Mathf.CeilToInt(saludActual).ToString() + "%";
-
-            textoPorcentaje.gameObject.SetActive(porcentajeVida <= 0.5f);
+            if (porcentajeVida <= 0)
+                textoPorcentaje.text = "MUERTO";
+            else
+                textoPorcentaje.text = Mathf.RoundToInt(porcentajeVida * 100) + "%";
         }
     }
 
     public void RecibirDanio(float cantidad)
     {
+        if (!deterioroActivo)
+            return;
+
         saludActual -= cantidad;
         saludActual = Mathf.Clamp(saludActual, 0, saludMaxima);
         ActualizarUI();
+
+        if (saludActual <= 0)
+            Morir();
     }
 
     public void Curar(float cantidad)
@@ -181,11 +183,41 @@ public class NPCSalud : MonoBehaviour
         saludActual += cantidad;
         saludActual = Mathf.Clamp(saludActual, 0, saludMaxima);
         ActualizarUI();
+
+        if (EstaCurado())
+            DetenerDeterioro();
     }
 
-    void Morir()
+    public void DetenerDeterioro()
     {
+        deterioroActivo = false;
+        multiplicadorDeterioro = 1f;
+        ActualizarUI();
+    }
+
+    public void EstablecerMultiplicadorDeterioro(float multiplicador)
+    {
+        multiplicadorDeterioro = Mathf.Max(0f, multiplicador);
+    }
+
+    public void Morir()
+    {
+        if (notificandoMuerte)
+            return;
+
+        notificandoMuerte = true;
+        deterioroActivo = false;
+        saludActual = 0f;
+        ActualizarUI();
+
         Debug.Log("NPC muerto");
-        Destroy(gameObject);
+
+        NPCHerido herido = GetComponent<NPCHerido>();
+        herido?.NotificarMuerte();
+    }
+
+    public bool EstaCurado()
+    {
+        return saludActual >= saludMaxima;
     }
 }

@@ -4,7 +4,7 @@ public enum EstadoHerido
     PideAyuda,
     RecibePrimerosAuxilios,
     SigueBombero,
-    EstadoEmpeora,
+    Empeora,
     Rescatado,
     NoRescatado
 }

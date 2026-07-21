@@ -14,8 +14,8 @@ public class MenuPausa : MonoBehaviour
 
     void Start()
     {
-        imgPausa.SetActive(false);
         fondoPausa.SetActive(false);
+        imgPausa.SetActive(false);
 
         Time.timeScale = 1f;
 
@@ -49,9 +49,9 @@ public class MenuPausa : MonoBehaviour
 
         inventoryUI.CerrarInventario();
         radialMenu.CerrarMenu();
-        imgPausa.SetActive(true);
         fondoPausa.SetActive(true);
-
+        imgPausa.SetActive(true);
+        
         Time.timeScale = 0f;
 
         // Liberar mouse para los botones del menú
@@ -66,11 +66,10 @@ public class MenuPausa : MonoBehaviour
 
         pausado = false;
 
-        imgPausa.SetActive(false);
         fondoPausa.SetActive(false);
+        imgPausa.SetActive(false);
 
         Time.timeScale = 1f;
-
 
         // Volver al modo FPS
         Cursor.lockState = CursorLockMode.Locked;

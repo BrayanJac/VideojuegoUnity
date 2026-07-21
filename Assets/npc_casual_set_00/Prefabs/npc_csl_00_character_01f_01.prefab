@@ -943,7 +943,7 @@ MonoBehaviour:
   pacienteCritico: 0
   tiempoCritico: 60
   radioDeteccion: 20
-  velocidadSeguir: 2
+  velocidadSeguir: 28
   tiempoCuracion: 5
   sonidoAyuda: {fileID: 8300000, guid: 000ac24085a6fb44bae0444420351464, type: 3}
 --- !u!114 &-9058768351965131878

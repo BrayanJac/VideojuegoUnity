@@ -6,6 +6,9 @@ public class ItemData : ScriptableObject
     [Header("Identificador")]
     public string id;
 
+    [Header("Tipo")]
+    public TipoItem tipoItem;
+
     [Header("Información")]
     public string nombre;
 

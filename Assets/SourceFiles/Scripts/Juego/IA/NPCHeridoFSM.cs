@@ -20,15 +20,25 @@ public class NPCHeridoFSM : MonoBehaviour
         estados = new Dictionary<EstadoHerido, EstadoBase>()
         {
             { EstadoHerido.Esperando,
-                new EstadoEsperando(this,npc,detector) },
+                new EstadoEsperando(this, npc, detector) },
 
             { EstadoHerido.PideAyuda,
-                new EstadoPideAyuda(this,npc) },
+                new EstadoPideAyuda(this, npc) },
 
-            {
-              EstadoHerido.RecibePrimerosAuxilios,
-                new EstadoRecibePrimerosAuxilios(this, npc)
-            },
+            { EstadoHerido.RecibePrimerosAuxilios,
+                new EstadoRecibePrimerosAuxilios(this, npc) },
+
+            { EstadoHerido.SigueBombero,
+                new EstadoSigueBombero(this, npc) },
+
+            { EstadoHerido.Empeora,
+                new EstadoEmpeora(this, npc) },
+
+            { EstadoHerido.Rescatado,
+                new EstadoRescatado(this, npc) },
+
+            { EstadoHerido.NoRescatado,
+                new EstadoNoRescatado(this, npc) }
         };
     }
 
