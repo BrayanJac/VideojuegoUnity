@@ -56,8 +56,6 @@ public class EstadoSigueBombero : EstadoBase
             }
         }
 
-        // Detección por distancia: el NPC no genera triggers físicos de forma fiable
-        // (sin Rigidbody / collider válido), así que no dependemos solo de OnTriggerEnter.
         if (ambulancia == null)
         {
             GameObject ambulanciaObj = GameObject.FindGameObjectWithTag("Ambulancia");

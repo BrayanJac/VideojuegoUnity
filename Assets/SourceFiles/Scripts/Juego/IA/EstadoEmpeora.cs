@@ -1,9 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// El herido empeora: cuenta regresiva (tiempoCritico) y deterioro acelerado.
-/// Si no se atiende a tiempo → NoRescatado.
-/// </summary>
 public class EstadoEmpeora : EstadoBase
 {
     private float tiempoRestante;

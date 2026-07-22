@@ -2,9 +2,13 @@ using UnityEngine;
 
 public class EstadoPideAyuda : EstadoBase
 {
+    private DetectorJugador detector;
+
     public EstadoPideAyuda(NPCHeridoFSM fsm,
-                           NPCHerido npc) : base(fsm, npc)
+                           NPCHerido npc,
+                           DetectorJugador detector) : base(fsm, npc)
     {
+        this.detector = detector;
     }
 
     public override void Entrar()
@@ -12,7 +16,7 @@ public class EstadoPideAyuda : EstadoBase
         if (AudioManager.instancia != null)
             AudioManager.instancia.ReproducirEfecto(npc.SonidoAyuda);
 
-        Debug.Log($"{npc.name}: ¡Ayuda!");
+        Debug.Log($"{npc.name}: Ayuda!");
     }
 
     public override void Actualizar()
@@ -20,7 +24,12 @@ public class EstadoPideAyuda : EstadoBase
         if (npc.EstaMuerto)
             return;
 
-        // Paciente critico o vida <= 50% ? empeora.
+        if (detector != null && !detector.JugadorDetectado)
+        {
+            fsm.CambiarEstado(EstadoHerido.Esperando);
+            return;
+        }
+
         bool critico = npc.PacienteCritico;
         bool vidaBaja = npc.Salud != null && npc.Salud.PorcentajeVida <= 0.5f;
 

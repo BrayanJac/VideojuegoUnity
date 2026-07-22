@@ -23,7 +23,7 @@ public class NPCHeridoFSM : MonoBehaviour
                 new EstadoEsperando(this, npc, detector) },
 
             { EstadoHerido.PideAyuda,
-                new EstadoPideAyuda(this, npc) },
+                new EstadoPideAyuda(this, npc, detector) },
 
             { EstadoHerido.RecibePrimerosAuxilios,
                 new EstadoRecibePrimerosAuxilios(this, npc) },

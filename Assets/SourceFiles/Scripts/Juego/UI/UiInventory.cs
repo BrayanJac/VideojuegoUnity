@@ -10,52 +10,35 @@ public class InventoryUI : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current.iKey.isPressed)
-        {
-            if (!panelInventario.activeSelf)
-            {
-                panelInventario.SetActive(true);
-
-                ActualizarInventario();
-
-                playerMovement.puedeMoverse = false;
-
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-        }
-        else
+        if (Keyboard.current.iKey.wasPressedThisFrame)
         {
             if (panelInventario.activeSelf)
             {
                 panelInventario.SetActive(false);
-
                 playerMovement.puedeMoverse = true;
-
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+            }
+            else
+            {
+                panelInventario.SetActive(true);
+                MostrarInstrucciones();
+                playerMovement.puedeMoverse = false;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
         }
     }
 
-    public void ActualizarInventario()
+    void MostrarInstrucciones()
     {
-        listaItems.text = "";
-
-        foreach (InventorySlot slot in InventoryManager.Instance.inventario)
-        {
-            listaItems.text += slot.item.nombre + " x" + slot.cantidad + "\n";
-        }
-    }
-
-    private void OnEnable()
-    {
-        InventoryManager.OnInventoryChanged += ActualizarInventario;
-    }
-
-    private void OnDisable()
-    {
-        InventoryManager.OnInventoryChanged -= ActualizarInventario;
+        listaItems.text =
+            "W A S D  -  Moverse\n" +
+            "Espacio  -  Saltar\n" +
+            "Q        -  Menú de objetos\n" +
+            "E        -  Interactuar / Recoger\n" +
+            "I        -  Instrucciones\n" +
+            "P        -  Pausa";
     }
 
     public void CerrarInventario()

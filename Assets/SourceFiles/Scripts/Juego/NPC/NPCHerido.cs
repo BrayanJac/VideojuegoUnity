@@ -4,7 +4,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class NPCHerido : MonoBehaviour
 {
-    [Header("Configuración")]
+    [Header("Configuracion")]
 
     [SerializeField] private bool pacienteCritico = false;
 

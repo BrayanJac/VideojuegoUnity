@@ -35,7 +35,7 @@ public class ObjetoMedico : MonoBehaviour
                 break;
 
             case TipoItem.MedKit:
-                curacion = 100;
+                curacion = 90;
                 break;
 
             default:

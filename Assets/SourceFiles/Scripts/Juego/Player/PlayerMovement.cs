@@ -16,8 +16,11 @@ public class PlayerMovement : MonoBehaviour
 
     private float verticalVelocity;
     private float cameraPitch = 0f;
-
-
+    private bool estabaEnElAire;
+    private float alturaMaximaEnElAire;
+    private float alturaMinimaDanio = 60f;
+    private float danioPorUnidadCaida = 1.5f;
+    private float danioMaximoCaida = 40f;
 
     void Start()
     {
@@ -92,10 +95,28 @@ public class PlayerMovement : MonoBehaviour
             if (verticalVelocity < 0)
                 verticalVelocity = -2f;
 
+            if (estabaEnElAire)
+            {
+                AplicarDanioPorCaida();
+                estabaEnElAire = false;
+            }
+
             // Salto con la barra espaciadora
             if (Keyboard.current.spaceKey.wasPressedThisFrame)
             {
                 verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            }
+        }
+        else
+        {
+            if (!estabaEnElAire)
+            {
+                estabaEnElAire = true;
+                alturaMaximaEnElAire = transform.position.y;
+            }
+            else
+            {
+                alturaMaximaEnElAire = Mathf.Max(alturaMaximaEnElAire, transform.position.y);
             }
         }
 
@@ -106,5 +127,25 @@ public class PlayerMovement : MonoBehaviour
 
 
         controller.Move(move * moveSpeed * Time.deltaTime);
+    }
+
+    void AplicarDanioPorCaida()
+    {
+        float alturaCaida = alturaMaximaEnElAire - transform.position.y;
+
+        if (alturaCaida < alturaMinimaDanio)
+            return;
+
+        float exceso = alturaCaida - alturaMinimaDanio;
+        float danio = Mathf.Min(exceso * danioPorUnidadCaida, danioMaximoCaida);
+
+        PlayerHealth salud = PlayerHealth.Instance != null
+            ? PlayerHealth.Instance
+            : GetComponent<PlayerHealth>();
+
+        if (salud == null)
+            return;
+
+        salud.RecibirDanio(danio);
     }
 }

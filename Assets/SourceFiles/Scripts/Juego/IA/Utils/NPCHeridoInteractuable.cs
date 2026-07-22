@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(NPCHerido))]
 public class NPCHeridoInteractuable : MonoBehaviour
 {
-    [SerializeField] private float distanciaInteraccion = 3f;
+    [SerializeField] private float distanciaInteraccion = 8f;
 
     private bool jugadorCerca;
     private NPCHerido npc;

@@ -23,7 +23,7 @@ public class NPCSalud : MonoBehaviour
 
     [Header("Jugador")]
     public Transform jugador;
-    private float distanciaMostrar = 8f;
+    private float distanciaMostrar = 22f;
 
     private float porcentajeVida;
     public float PorcentajeVida => porcentajeVida;
