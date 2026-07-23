@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class InteractorJugador : MonoBehaviour
 {
-    [SerializeField] private float distanciaInteraccion = 2.5f;
+    [SerializeField] private float distanciaInteraccion = 4f;
 
     [SerializeField] private LayerMask capaNPC;
 

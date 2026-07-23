@@ -4,7 +4,7 @@ public enum TipoItem
     Analgesico,
     Vendaje,
     Adrenalina,
-
+    Linterna,
     Hacha,
     Extintor
 }

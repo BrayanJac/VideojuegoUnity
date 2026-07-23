@@ -19,6 +19,9 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI textoEquipado;
     public Image iconoEquipado;
 
+    [Header("HUD Linterna (arriba centro)")]
+    public GameObject iconoLinterna;
+
     private void Awake()
     {
         if (Instance == null)
@@ -30,12 +33,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    void Start()
     {
         if (ContadorRescates.Instance != null)
             ActualizarRescates(ContadorRescates.Instance.Salvados, ContadorRescates.Instance.Total);
 
         ActualizarEquipado();
+        ActualizarIconoLinterna();
     }
 
     private void OnEnable()
@@ -100,5 +104,11 @@ public class UIManager : MonoBehaviour
 
         string cantidad = equipado.cantidad > 1 ? $" x{equipado.cantidad}" : "";
         textoEquipado.text = equipado.item.nombre + cantidad;
+    }
+
+    public void ActualizarIconoLinterna()
+    {
+        if (iconoLinterna != null)
+            iconoLinterna.SetActive(LinternaController.linternaRecogida);
     }
 }

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Linterna
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   id: linterna
+  tipoItem: 4
   nombre: Linterna
   descripcion: Una linterna que ilumina lugares.
   icono: {fileID: 21300000, guid: 030379f208a5f454197500ea2ddd028f, type: 3}

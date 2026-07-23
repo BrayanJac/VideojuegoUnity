@@ -38,5 +38,16 @@ public class ContadorRescates : MonoBehaviour
     {
         Salvados = Mathf.Min(Salvados + 1, Total);
         OnRescatesChanged?.Invoke(Salvados, Total);
+
+        if (Salvados >= Total)
+        {
+            TemporizadorPartida temp = FindAnyObjectByType<TemporizadorPartida>();
+            PantallaGanar.npcSalvados = Salvados;
+            PantallaGanar.npcTotal = Total;
+            PantallaGanar.incendiosExtinguidos = ExtintorController.incendiosApagados;
+            PantallaGanar.incendiosTotales = ExtintorController.incendiosTotales;
+            PantallaGanar.tiempoRestante = temp != null ? temp.tiempoRestante : 0f;
+            UnityEngine.SceneManagement.SceneManager.LoadScene("PantallaGanar");
+        }
     }
 }

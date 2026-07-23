@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Hacha
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   id: hacha
+  tipoItem: 5
   nombre: Hacha
   descripcion: Una hacha sirve para romper cosas.
   icono: {fileID: 21300000, guid: 3014bffc0969ae1429c4f6d9c8ffebb2, type: 3}

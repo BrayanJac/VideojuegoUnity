@@ -9,7 +9,7 @@ public class TemporizadorPartida : MonoBehaviour
 
     public TMP_Text textoTiempo;
 
-    private float tiempoRestante;
+    public float tiempoRestante { get; private set; }
     private bool terminado = false;
 
     public PantallaPerder pantallaPerder;
@@ -47,7 +47,7 @@ public class TemporizadorPartida : MonoBehaviour
 
     void FinDelTiempo()
     {
-        PantallaPerder.motivoPerder = "Se te acabó el tiempo";
+        PantallaPerder.motivoPerder = "Se te acabï¿½ el tiempo";
         SceneManager.LoadScene("PantallaPerder");
     }
 }

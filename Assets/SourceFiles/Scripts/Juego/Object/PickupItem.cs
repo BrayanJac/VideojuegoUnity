@@ -17,11 +17,32 @@ public class PickupItem : MonoBehaviour
                 return;
             }
 
-            InventoryManager.Instance.AgregarItem(itemData);
+            if (itemData.id == "linterna")
+            {
+                EquipmentManager equipMgr = EquipmentManager.Instance;
+                if (equipMgr != null)
+                {
+                    foreach (EquipableObject obj in equipMgr.objetos)
+                    {
+                        if (obj != null && obj.itemData != null && obj.itemData.id == "linterna")
+                        {
+                            LinternaController.RecogerLinterna(obj.gameObject);
+                            break;
+                        }
+                    }
+                }
+                if (UIManager.Instance != null)
+                    UIManager.Instance.ActualizarIconoLinterna();
+            }
+            else
+            {
+                InventoryManager.Instance.AgregarItem(itemData);
+            }
 
             UIManager.Instance.OcultarTextoRecoger();
 
-            AudioManager.instancia.ReproducirEfecto(sonidoRecoger);
+            if (AudioManager.instancia != null)
+                AudioManager.instancia.ReproducirEfecto(sonidoRecoger);
 
             Destroy(gameObject);
         }

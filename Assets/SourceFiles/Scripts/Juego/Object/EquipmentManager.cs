@@ -6,7 +6,7 @@ public class EquipmentManager : MonoBehaviour
 
     public EquipableObject[] objetos;
 
-    private EquipableObject objetoActual;
+    public EquipableObject objetoActual;
 
     private void Awake()
     {
@@ -20,13 +20,14 @@ public class EquipmentManager : MonoBehaviour
 
         foreach (EquipableObject obj in objetos)
         {
-            obj.gameObject.SetActive(false);
+            if (!EsLinterna(obj))
+                obj.gameObject.SetActive(false);
         }
     }
 
     public void Equipar(ItemData item)
     {
-        if (objetoActual != null)
+        if (objetoActual != null && !EsLinterna(objetoActual))
         {
             objetoActual.gameObject.SetActive(false);
         }
@@ -47,10 +48,15 @@ public class EquipmentManager : MonoBehaviour
 
     public void Desequipar()
     {
-        if (objetoActual != null)
+        if (objetoActual != null && !EsLinterna(objetoActual))
         {
             objetoActual.gameObject.SetActive(false);
             objetoActual = null;
         }
+    }
+
+    private bool EsLinterna(EquipableObject obj)
+    {
+        return obj != null && obj.itemData != null && obj.itemData.id == "linterna";
     }
 }
