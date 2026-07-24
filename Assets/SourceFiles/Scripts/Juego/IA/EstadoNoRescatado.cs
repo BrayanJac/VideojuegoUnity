@@ -15,6 +15,7 @@ public class EstadoNoRescatado : EstadoBase
     {
         Debug.Log($"{npc.name}: No rescatado. Muerto.");
 
+        npc.LieDown();
         npc.MarcarMuerto();
         npc.PuedeSerRescatado = false;
 

@@ -9,6 +9,7 @@ public class EstadoRecibePrimerosAuxilios : EstadoBase
 
     public override void Entrar()
     {
+        npc.LieDown();
         npc.ProgresoCuracion = 0;
         Debug.Log($"{npc.name}: Recibiendo primeros auxilios");
     }

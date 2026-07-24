@@ -20,6 +20,9 @@ public class NPCHerido : MonoBehaviour
 
     private Animator animator;
     private NavMeshAgent agente;
+    private Quaternion rotacionOriginal;
+    private bool estaAcostado;
+    private Coroutine rutinaLevantar;
 
     public bool PacienteCritico => pacienteCritico;
     public float TiempoCritico => tiempoCritico;
@@ -101,6 +104,70 @@ public class NPCHerido : MonoBehaviour
             return;
 
         fsm.CambiarEstado(EstadoHerido.NoRescatado);
+    }
+
+    public void LieDown()
+    {
+        if (EstaMuerto) return;
+
+        if (rutinaLevantar != null)
+        {
+            StopCoroutine(rutinaLevantar);
+            rutinaLevantar = null;
+        }
+
+        if (!estaAcostado)
+        {
+            rotacionOriginal = transform.rotation;
+            estaAcostado = true;
+
+            if (agente != null)
+            {
+                agente.updateRotation = false;
+                agente.isStopped = true;
+            }
+        }
+
+        if (animator != null)
+            animator.SetFloat("Speed", 0f);
+
+        transform.rotation = rotacionOriginal * Quaternion.Euler(-90f, 0f, 0f);
+    }
+
+    public void StandUp()
+    {
+        if (!estaAcostado || EstaMuerto) return;
+
+        if (rutinaLevantar != null)
+            StopCoroutine(rutinaLevantar);
+
+        rutinaLevantar = StartCoroutine(RutinaLevantar());
+    }
+
+    private System.Collections.IEnumerator RutinaLevantar()
+    {
+        Quaternion inicio = transform.rotation;
+        float duracion = 0.4f;
+        float tiempo = 0f;
+
+        while (tiempo < duracion)
+        {
+            tiempo += Time.deltaTime;
+            float t = tiempo / duracion;
+            transform.rotation = Quaternion.Slerp(inicio, rotacionOriginal, t);
+            yield return null;
+        }
+
+        transform.rotation = rotacionOriginal;
+        estaAcostado = false;
+        rutinaLevantar = null;
+
+        if (agente != null)
+            agente.updateRotation = true;
+    }
+
+    public void OnFootstep()
+    {
     }
 
     private void OnTriggerEnter(Collider other)

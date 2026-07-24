@@ -919,7 +919,7 @@ Animator:
   m_GameObject: {fileID: 4675573491783898455}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 07cfd655bf23cbc409ab05c4e0d2d549, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6eaf0de886bc49c479a50551bb420332, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1004,7 +1004,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ad3f3413d96264da91e4ea8ad4b171, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCHeridoInteractuable
-  distanciaInteraccion: 3
 --- !u!195 &8384389924475155304
 NavMeshAgent:
   m_ObjectHideFlags: 0

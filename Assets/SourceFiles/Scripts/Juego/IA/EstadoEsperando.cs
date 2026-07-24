@@ -13,6 +13,7 @@ public class EstadoEsperando : EstadoBase
 
     public override void Entrar()
     {
+        npc.LieDown();
         Debug.Log($"{npc.name}: Esperando");
     }
 

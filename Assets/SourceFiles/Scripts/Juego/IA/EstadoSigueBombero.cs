@@ -17,6 +17,7 @@ public class EstadoSigueBombero : EstadoBase
     {
         Debug.Log($"{npc.name}: Ahora sigue al bombero.");
 
+        npc.StandUp();
         npc.PuedeSerRescatado = true;
         agente = npc.Agente;
 
