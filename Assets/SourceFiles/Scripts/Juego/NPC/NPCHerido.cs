@@ -6,17 +6,17 @@ public class NPCHerido : MonoBehaviour
 {
     [Header("Configuracion")]
 
-    [SerializeField] private bool pacienteCritico = false;
+    private bool pacienteCritico = false;
 
-    [SerializeField] private float tiempoCritico = 60f;
+    private float tiempoCritico = 60f;
 
-    [SerializeField] private float radioDeteccion = 90f;
+    private float radioDeteccion = 90f;
 
-    [SerializeField] private float velocidadSeguir = 28f;
+    private float velocidadSeguir = 28f;
 
-    [SerializeField] private float distanciaSeguimiento = 2f;
+    private float distanciaSeguimiento = 2f;
 
-    [SerializeField] private float distanciaRescate = 12f;
+    private float distanciaRescate = 25f;
 
     private Animator animator;
     private NavMeshAgent agente;
@@ -37,7 +37,7 @@ public class NPCHerido : MonoBehaviour
     public bool EstaMuerto { get; private set; }
 
     [Header("Primeros Auxilios")]
-    [SerializeField] private float tiempoCuracion = 5f;
+    private float tiempoCuracion = 5f;
 
     private float progresoCuracion = 0f;
 
@@ -62,6 +62,19 @@ public class NPCHerido : MonoBehaviour
         animator = GetComponent<Animator>();
         salud = GetComponent<NPCSalud>();
         agente = GetComponent<NavMeshAgent>();
+
+        rotacionOriginal = transform.rotation;
+        estaAcostado = true;
+        transform.rotation = rotacionOriginal * Quaternion.Euler(-90f, 0f, 0f);
+
+        if (animator != null)
+            animator.enabled = false;
+
+        if (agente != null)
+        {
+            agente.updateRotation = false;
+            agente.isStopped = true;
+        }
     }
 
     public NPCSalud Salud => salud;
@@ -69,6 +82,23 @@ public class NPCHerido : MonoBehaviour
     private void Start()
     {
         fsm = GetComponent<NPCHeridoFSM>();
+
+        if (estaAcostado)
+        {
+            transform.rotation = rotacionOriginal * Quaternion.Euler(-90f, 0f, 0f);
+            if (animator != null)
+                animator.enabled = false;
+        }
+    }
+
+    void Update()
+    {
+        if (estaAcostado)
+        {
+            transform.rotation = rotacionOriginal * Quaternion.Euler(-90f, 0f, 0f);
+            if (animator != null && animator.enabled)
+                animator.enabled = false;
+        }
     }
 
     public void IniciarPrimerosAuxilios()
@@ -129,7 +159,7 @@ public class NPCHerido : MonoBehaviour
         }
 
         if (animator != null)
-            animator.SetFloat("Speed", 0f);
+            animator.enabled = false;
 
         transform.rotation = rotacionOriginal * Quaternion.Euler(-90f, 0f, 0f);
     }
@@ -147,7 +177,7 @@ public class NPCHerido : MonoBehaviour
     private System.Collections.IEnumerator RutinaLevantar()
     {
         Quaternion inicio = transform.rotation;
-        float duracion = 0.4f;
+        float duracion = 1f;
         float tiempo = 0f;
 
         while (tiempo < duracion)
@@ -161,6 +191,9 @@ public class NPCHerido : MonoBehaviour
         transform.rotation = rotacionOriginal;
         estaAcostado = false;
         rutinaLevantar = null;
+
+        if (animator != null)
+            animator.enabled = true;
 
         if (agente != null)
             agente.updateRotation = true;

@@ -1,12 +1,30 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
     public GameObject panelInventario;
     public TextMeshProUGUI listaItems;
     public PlayerMovement playerMovement;
+
+    void Start()
+    {
+        RadialMenu radial = FindFirstObjectByType<RadialMenu>();
+        if (radial != null && radial.menu != null && panelInventario != null)
+        {
+            Image fuente = radial.menu.GetComponent<Image>();
+            Image destino = panelInventario.GetComponent<Image>();
+            if (fuente != null && destino != null)
+            {
+                destino.sprite = fuente.sprite;
+                destino.color = fuente.color;
+                destino.material = fuente.material;
+                destino.type = fuente.type;
+            }
+        }
+    }
 
     void Update()
     {
@@ -22,23 +40,11 @@ public class InventoryUI : MonoBehaviour
             else
             {
                 panelInventario.SetActive(true);
-                MostrarInstrucciones();
                 playerMovement.puedeMoverse = false;
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
         }
-    }
-
-    void MostrarInstrucciones()
-    {
-        listaItems.text =
-            "W A S D  -  Moverse\n" +
-            "Espacio  -  Saltar\n" +
-            "Q        -  Menú de objetos\n" +
-            "E        -  Interactuar / Recoger\n" +
-            "I        -  Instrucciones\n" +
-            "P        -  Pausa";
     }
 
     public void CerrarInventario()

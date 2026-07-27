@@ -23,7 +23,7 @@ public class PlayerHealth : MonoBehaviour
 
     [Header("Game Over")]
     private string mensajeSinVida = "Te quedaste sin vida";
-    [SerializeField] private string escenaPerder = "PantallaPerder";
+    private string escenaPerder = "PantallaPerder";
 
     private float saludActual;
     private float oxigenoActual;

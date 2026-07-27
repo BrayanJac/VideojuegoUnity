@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class InteractorJugador : MonoBehaviour
 {
-    [SerializeField] private float distanciaInteraccion = 4f;
+    private float distanciaInteraccion = 4f;
 
     [SerializeField] private LayerMask capaNPC;
 
@@ -20,7 +20,7 @@ public class InteractorJugador : MonoBehaviour
 
             if (npc != null)
             {
-                npc.IniciarPrimerosAuxilios();
+                ObjetoMedico.CurarNPC(npc);
                 return;
             }
         }

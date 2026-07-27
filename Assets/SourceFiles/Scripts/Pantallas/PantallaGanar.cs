@@ -26,10 +26,10 @@ public class PantallaGanar : MonoBehaviour
 
         int minutos = Mathf.FloorToInt(tiempoRestante / 60);
         int segundos = Mathf.FloorToInt(tiempoRestante % 60);
-        textoTiempo.text = string.Format("{0:00}:{1:00}", minutos, segundos);
+        textoTiempo.text = "Tiempo restante\n" + string.Format("{0:00}:{1:00}", minutos, segundos);
 
-        textoNPCs.text = $"{npcSalvados} / {npcTotal}";
-        textoIncendios.text = $"{incendiosExtinguidos} / {incendiosTotales}";
+        textoNPCs.text = $"Civiles Salvados\n {npcSalvados} / {npcTotal}";
+        textoIncendios.text = $"Incendios Extinguidos\n {incendiosExtinguidos} / {incendiosTotales}";
 
         float tiempoPorcentaje = tiempoRestante / tiempoMaximo;
         int puntajeBase = 500;
@@ -37,7 +37,7 @@ public class PantallaGanar : MonoBehaviour
         int puntajeIncendios = incendiosExtinguidos * 30;
         int puntajeTiempo = Mathf.RoundToInt(tiempoPorcentaje * 200);
         int puntajeTotal = puntajeBase + puntajeNPCs + puntajeIncendios + puntajeTiempo;
-        textoPuntaje.text = $"{puntajeTotal} pts";
+        textoPuntaje.text = $"Puntaje\n {puntajeTotal} pts";
 
         int estrellas;
         if (puntajeTotal >= 1000) estrellas = 5;

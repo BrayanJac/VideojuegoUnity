@@ -50,6 +50,11 @@ public class EstadoSigueBombero : EstadoBase
         {
             agente.SetDestination(bombero.position);
 
+            if (agente.pathStatus == NavMeshPathStatus.PathInvalid || agente.pathStatus == NavMeshPathStatus.PathPartial)
+            {
+                WarpCercanoAlJugador();
+            }
+
             if (tieneParametroSpeed && npc.Animator != null)
             {
                 float velocidad = agente.velocity.magnitude;
@@ -69,6 +74,16 @@ public class EstadoSigueBombero : EstadoBase
         float distancia = Vector3.Distance(npc.transform.position, ambulancia.position);
         if (distancia <= npc.DistanciaRescate)
             fsm.CambiarEstado(EstadoHerido.Rescatado);
+    }
+
+    private void WarpCercanoAlJugador()
+    {
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(bombero.position, out hit, npc.RadioDeteccion, NavMesh.AllAreas))
+        {
+            agente.Warp(hit.position);
+            agente.SetDestination(bombero.position);
+        }
     }
 
     public override void Salir()

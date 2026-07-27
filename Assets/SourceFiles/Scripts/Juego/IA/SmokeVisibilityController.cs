@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class SmokeVisibilityController : MonoBehaviour
 {
-    [SerializeField] private float alphaNormal = 1f;
-    [SerializeField] private float alphaConLinterna = 0.15f;
+    private float alphaNormal = 1f;
+    private float alphaConLinterna = 0.15f;
 
     private ParticleSystem[] particleSystems;
     private ParticleSystemRenderer[] renderers;

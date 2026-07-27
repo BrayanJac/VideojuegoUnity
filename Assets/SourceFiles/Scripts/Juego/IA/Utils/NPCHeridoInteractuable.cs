@@ -63,7 +63,7 @@ public class NPCHeridoInteractuable : MonoBehaviour
             return;
 
         if (!ObjetoMedico.CurarNPC(npc))
-            npc.IniciarPrimerosAuxilios();
+            return;
 
         if (UIManager.Instance != null)
             UIManager.Instance.OcultarTextoRecoger();

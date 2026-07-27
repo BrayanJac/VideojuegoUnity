@@ -23,7 +23,7 @@ public class NPCSalud : MonoBehaviour
 
     [Header("Jugador")]
     public Transform jugador;
-    private float distanciaMostrar = 22f;
+    private float distanciaMostrar = 12f;
 
     private float porcentajeVida;
     public float PorcentajeVida => porcentajeVida;
@@ -43,6 +43,8 @@ public class NPCSalud : MonoBehaviour
 
         danioPorSegundo =
             (saludMaxima * (porcentajeDanio / 100f)) / tiempoEntreDanio;
+
+        multiplicadorDeterioro = DatosDificultad.multiplicadorDeterioroNPC;
 
         if (alertaCritica != null)
         {

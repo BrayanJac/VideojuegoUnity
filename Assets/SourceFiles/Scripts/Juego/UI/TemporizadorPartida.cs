@@ -16,6 +16,7 @@ public class TemporizadorPartida : MonoBehaviour
 
     void Start()
     {
+        tiempoInicial = DatosDificultad.tiempoMaximo;
         tiempoRestante = tiempoInicial;
     }
 

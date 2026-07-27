@@ -68,7 +68,7 @@ public class FireManager : MonoBehaviour
 
         foreach (Transform fuego in fuegos)
         {
-            if (fuego == null)
+            if (fuego == null || !fuego.gameObject.activeInHierarchy)
                 continue;
 
             float distancia = Vector3.Distance(
