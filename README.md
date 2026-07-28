@@ -42,7 +42,6 @@ Un juego en primera persona en Unity donde eres un bombero que debe rescatar civ
 - Los **objetos médicos** dan cantidad ×2 al recogerse (frente a ×1 para el resto)
 - Equipar un objeto activa su representación visual en la mano del personaje (`EquipmentManager`)
 - La **Linterna** es un objeto especial: no entra al inventario, `LinternaController` la activa globalmente y muestra su icono en el HUD. Persiste entre escenas via `DontDestroyOnLoad`.
-- El **Hacha** está definida como tipo pero no tiene mecánica de juego asignada actualmente.
 
 ### Sistema de rescate NPC (FSM)
 Los NPCs siguen una máquina de estados (`NPCHeridoFSM`) con 7 estados:
