@@ -14,6 +14,8 @@ public class RadialMenu : MonoBehaviour
 
     public float radio = 180f;
 
+    public TMPro.TextMeshProUGUI textoSinObjetos;
+
     private List<GameObject> slots = new List<GameObject>();
 
     private RadialSlotUI slotSeleccionado;
@@ -68,7 +70,14 @@ public class RadialMenu : MonoBehaviour
         int cantidad = InventoryManager.Instance.inventario.Count;
 
         if (cantidad == 0)
+        {
+            if (textoSinObjetos != null)
+                textoSinObjetos.gameObject.SetActive(true);
             return;
+        }
+
+        if (textoSinObjetos != null)
+            textoSinObjetos.gameObject.SetActive(false);
 
         float angulo = 360f / cantidad;
 

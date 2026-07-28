@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class MenuPausa : MonoBehaviour
 {
     public GameObject imgPausa;
-    public InventoryUI inventoryUI;
+    public InstructionsUI instruccionesUI;
     public RadialMenu radialMenu;
     public GameObject fondoPausa;
 
@@ -47,7 +47,7 @@ public class MenuPausa : MonoBehaviour
 
         pausado = true;
 
-        inventoryUI.CerrarInventario();
+        instruccionesUI.CerrarInstrucciones();
         radialMenu.CerrarMenu();
         fondoPausa.SetActive(true);
         imgPausa.SetActive(true);

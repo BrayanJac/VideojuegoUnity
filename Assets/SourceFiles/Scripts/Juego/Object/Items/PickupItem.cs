@@ -20,7 +20,7 @@ public class PickupItem : MonoBehaviour
     {
         float miDistancia = Vector3.Distance(jugador.position, transform.position);
 
-        foreach (PickupItem otro in FindObjectsByType<PickupItem>(FindObjectsSortMode.None))
+        foreach (PickupItem otro in FindObjectsByType<PickupItem>())
         {
             if (otro == this || otro == null || !otro.jugadorCerca) continue;
             if (Vector3.Distance(jugador.position, otro.transform.position) < miDistancia)

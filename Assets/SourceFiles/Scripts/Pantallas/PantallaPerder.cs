@@ -6,11 +6,12 @@ public class PantallaPerder : MonoBehaviour
 {
     public TMP_Text textoPerder;
 
-    // Aquí se guarda el motivo antes de cargar la escena.
+    // Aquï¿½ se guarda el motivo antes de cargar la escena.
     public static string motivoPerder = "Has perdido";
 
     void Start()
     {
+        LinternaController.Reset();
         textoPerder.text = motivoPerder;
 
         Time.timeScale = 0f;

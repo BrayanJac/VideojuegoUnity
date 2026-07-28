@@ -1244,14 +1244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0027d385bb36e004cb0c370fe7024866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCHerido
-  pacienteCritico: 0
-  tiempoCritico: 60
-  radioDeteccion: 20
-  velocidadSeguir: 28
-  distanciaSeguimiento: 4
-  distanciaRescate: 12
-  tiempoCuracion: 5
   sonidoAyuda: {fileID: 8300000, guid: 64cd75fa3e227394babef027061040b8, type: 3}
+  sonidoGracias: {fileID: 0}
 --- !u!114 &2649071912348880433
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -48,7 +48,7 @@ public class TemporizadorPartida : MonoBehaviour
 
     void FinDelTiempo()
     {
-        PantallaPerder.motivoPerder = "Se te acab� el tiempo";
+        PantallaPerder.motivoPerder = "Se te acabo el tiempo";
         SceneManager.LoadScene("PantallaPerder");
     }
 }

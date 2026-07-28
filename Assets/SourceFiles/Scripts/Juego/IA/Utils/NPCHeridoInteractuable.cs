@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(NPCHerido))]
 public class NPCHeridoInteractuable : MonoBehaviour
 {
-    private float distanciaInteraccion = 12f;
+    private float distanciaInteraccion = 24f;
 
     private bool jugadorCerca;
     private NPCHerido npc;
@@ -24,7 +24,7 @@ public class NPCHeridoInteractuable : MonoBehaviour
 
     private void Update()
     {
-        if (jugador == null || npc.EstaMuerto)
+        if (jugador == null || npc.EstaMuerto || npc.EstaRescatado)
         {
             if (jugadorCerca)
             {

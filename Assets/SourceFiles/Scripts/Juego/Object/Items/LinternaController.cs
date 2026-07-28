@@ -29,6 +29,13 @@ public class LinternaController : MonoBehaviour
             linternaObjeto.SetActive(true);
     }
 
+    public static void Reset()
+    {
+        linternaRecogida = false;
+        linternaObjeto = null;
+        iconoLinternaUI = null;
+    }
+
     private static void AsegurarInstancia()
     {
         if (instancia != null)

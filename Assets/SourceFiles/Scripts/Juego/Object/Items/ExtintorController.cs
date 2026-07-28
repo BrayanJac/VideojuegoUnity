@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,12 +8,11 @@ public class ExtintorController : MonoBehaviour
 
     private float rangoApagado = 30f;
     [SerializeField] private Transform fuegoEdificio;
+    public AudioClip sonidoApagar;
 
-    private ParticleSystem[] fuegos;
+    private Transform[] fuegos;
     private Transform jugador;
     private Camera camaraJugador;
-    private GameObject crosshair;
-    private TMP_Text textoCrosshair;
 
     private void Start()
     {
@@ -27,7 +25,9 @@ public class ExtintorController : MonoBehaviour
 
         if (fuegoEdificio != null)
         {
-            fuegos = fuegoEdificio.GetComponentsInChildren<ParticleSystem>();
+            fuegos = new Transform[fuegoEdificio.childCount];
+            for (int i = 0; i < fuegoEdificio.childCount; i++)
+                fuegos[i] = fuegoEdificio.GetChild(i);
             incendiosTotales = fuegos.Length;
         }
 
@@ -37,48 +37,14 @@ public class ExtintorController : MonoBehaviour
             jugador = jugadorObj.transform;
         }
         camaraJugador = Camera.main;
-
-        CrearCrosshair();
-    }
-
-    void CrearCrosshair()
-    {
-        Canvas canvas = FindFirstObjectByType<Canvas>();
-        if (canvas == null) return;
-
-        crosshair = new GameObject("CrosshairExtintor");
-        crosshair.transform.SetParent(canvas.transform, false);
-
-        textoCrosshair = crosshair.AddComponent<TextMeshProUGUI>();
-        textoCrosshair.text = "✕";
-        textoCrosshair.fontSize = 48;
-        textoCrosshair.alignment = TextAlignmentOptions.Center;
-        textoCrosshair.color = new Color(1, 1, 1, 0);
-
-        RectTransform rt = textoCrosshair.rectTransform;
-        rt.anchorMin = new Vector2(0.5f, 0.5f);
-        rt.anchorMax = new Vector2(0.5f, 0.5f);
-        rt.anchoredPosition = Vector2.zero;
     }
 
     private void Update()
     {
         if (!EstaExtintorEquipado())
-        {
-            if (textoCrosshair != null)
-                textoCrosshair.color = new Color(1, 1, 1, 0);
             return;
-        }
 
         bool apuntandoFuego = EstaApuntandoFuego();
-
-        if (textoCrosshair != null)
-        {
-            if (apuntandoFuego)
-                textoCrosshair.color = Color.white;
-            else
-                textoCrosshair.color = new Color(1, 1, 1, 0.5f);
-        }
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
             IntentarApagarFuegos(apuntandoFuego);
@@ -88,11 +54,11 @@ public class ExtintorController : MonoBehaviour
     {
         if (camaraJugador == null || fuegos == null) return false;
 
-        foreach (ParticleSystem fuego in fuegos)
+        foreach (Transform fuego in fuegos)
         {
             if (fuego == null || !fuego.gameObject.activeInHierarchy) continue;
 
-            Vector3 direccion = fuego.transform.position - camaraJugador.transform.position;
+            Vector3 direccion = fuego.position - camaraJugador.transform.position;
             float distancia = direccion.magnitude;
             if (distancia > rangoApagado) continue;
 
@@ -124,7 +90,7 @@ public class ExtintorController : MonoBehaviour
         if (jugador == null)
             return;
 
-        foreach (ParticleSystem fuego in fuegos)
+        foreach (Transform fuego in fuegos)
         {
             if (fuego == null || !fuego.gameObject.activeInHierarchy)
                 continue;
@@ -132,30 +98,31 @@ public class ExtintorController : MonoBehaviour
             if (soloApuntado && !EstaApuntandoAFuego(fuego))
                 continue;
 
-            float distancia = Vector3.Distance(jugador.position, fuego.transform.position);
+            float distancia = Vector3.Distance(jugador.position, fuego.position);
 
             if (distancia <= rangoApagado)
             {
-                fuego.Stop();
-                fuego.gameObject.SetActive(false);
+                var particles = fuego.GetComponentsInChildren<ParticleSystem>(true);
+                foreach (var ps in particles)
+                {
+                    ps.Stop();
+                    ps.gameObject.SetActive(false);
+                }
                 incendiosApagados++;
+
+                if (sonidoApagar != null && AudioManager.instancia != null)
+                    AudioManager.instancia.ReproducirEfecto(sonidoApagar);
             }
         }
     }
 
-    bool EstaApuntandoAFuego(ParticleSystem fuego)
+    bool EstaApuntandoAFuego(Transform fuego)
     {
         if (camaraJugador == null) return false;
 
-        Vector3 direccion = fuego.transform.position - camaraJugador.transform.position;
+        Vector3 direccion = fuego.position - camaraJugador.transform.position;
         float angulo = Vector3.Angle(camaraJugador.transform.forward, direccion);
         return angulo < 10f;
-    }
-
-    private void OnDestroy()
-    {
-        if (crosshair != null)
-            Destroy(crosshair);
     }
 
     private void OnDrawGizmosSelected()

@@ -1,11 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class PantallaGanar : MonoBehaviour
 {
+    [Header("Estrellas")]
+    public Image[] estrellasAmarillas;
+    public Image[] estrellasTransparentes;
+
     [Header("Textos UI")]
-    public TMP_Text textoEstrellas;
     public TMP_Text textoTiempo;
     public TMP_Text textoNPCs;
     public TMP_Text textoIncendios;
@@ -16,37 +20,44 @@ public class PantallaGanar : MonoBehaviour
     public static int incendiosExtinguidos;
     public static int incendiosTotales;
     public static float tiempoRestante;
-    public static float tiempoMaximo = 180f;
 
     void Start()
     {
+        LinternaController.Reset();
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
         int minutos = Mathf.FloorToInt(tiempoRestante / 60);
         int segundos = Mathf.FloorToInt(tiempoRestante % 60);
-        textoTiempo.text = "Tiempo restante\n" + string.Format("{0:00}:{1:00}", minutos, segundos);
+        textoTiempo.text = string.Format("{0:00}:{1:00}", minutos, segundos);
 
-        textoNPCs.text = $"Civiles Salvados\n {npcSalvados} / {npcTotal}";
-        textoIncendios.text = $"Incendios Extinguidos\n {incendiosExtinguidos} / {incendiosTotales}";
+        textoNPCs.text = $"{npcSalvados} / {npcTotal}";
+        textoIncendios.text = $"{incendiosExtinguidos} / {incendiosTotales}";
 
-        float tiempoPorcentaje = tiempoRestante / tiempoMaximo;
+        float tiempoPorcentaje = DatosDificultad.tiempoMaximo > 0f
+            ? Mathf.Clamp01(tiempoRestante / DatosDificultad.tiempoMaximo)
+            : 0f;
         int puntajeBase = 500;
         int puntajeNPCs = npcSalvados * 50;
         int puntajeIncendios = incendiosExtinguidos * 30;
         int puntajeTiempo = Mathf.RoundToInt(tiempoPorcentaje * 200);
         int puntajeTotal = puntajeBase + puntajeNPCs + puntajeIncendios + puntajeTiempo;
-        textoPuntaje.text = $"Puntaje\n {puntajeTotal} pts";
+        textoPuntaje.text = $"{puntajeTotal} pts";
 
         int estrellas;
-        if (puntajeTotal >= 1000) estrellas = 5;
-        else if (puntajeTotal >= 750) estrellas = 4;
-        else if (puntajeTotal >= 500) estrellas = 3;
-        else if (puntajeTotal >= 250) estrellas = 2;
+        if (puntajeTotal >= 1000) estrellas = 3;
+        else if (puntajeTotal >= 600) estrellas = 2;
         else estrellas = 1;
 
-        textoEstrellas.text = estrellas + " / 5 Estrellas";
+        for (int i = 0; i < 3; i++)
+        {
+            bool activa = i < estrellas;
+            if (i < estrellasAmarillas.Length)
+                estrellasAmarillas[i].gameObject.SetActive(activa);
+            if (i < estrellasTransparentes.Length)
+                estrellasTransparentes[i].gameObject.SetActive(!activa);
+        }
     }
 
     public void JugarDeNuevo()

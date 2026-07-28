@@ -23,6 +23,7 @@ public class NPCHerido : MonoBehaviour
     private Quaternion rotacionOriginal;
     private bool estaAcostado;
     private Coroutine rutinaLevantar;
+    private float posYAcostado;
 
     public bool PacienteCritico => pacienteCritico;
     public float TiempoCritico => tiempoCritico;
@@ -35,6 +36,7 @@ public class NPCHerido : MonoBehaviour
 
     public bool PuedeSerRescatado { get; set; }
     public bool EstaMuerto { get; private set; }
+    public bool EstaRescatado { get; set; }
 
     [Header("Primeros Auxilios")]
     private float tiempoCuracion = 5f;
@@ -51,8 +53,10 @@ public class NPCHerido : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioClip sonidoAyuda;
+    [SerializeField] private AudioClip sonidoGracias;
 
     public AudioClip SonidoAyuda => sonidoAyuda;
+    public AudioClip SonidoGracias => sonidoGracias;
 
     private NPCSalud salud;
     private NPCHeridoFSM fsm;
@@ -65,7 +69,7 @@ public class NPCHerido : MonoBehaviour
 
         rotacionOriginal = transform.rotation;
         estaAcostado = true;
-        transform.rotation = rotacionOriginal * Quaternion.Euler(-90f, 0f, 0f);
+        IniciarAcostado();
 
         if (animator != null)
             animator.enabled = false;
@@ -85,7 +89,7 @@ public class NPCHerido : MonoBehaviour
 
         if (estaAcostado)
         {
-            transform.rotation = rotacionOriginal * Quaternion.Euler(-90f, 0f, 0f);
+            AplicarRotacionAcostado();
             if (animator != null)
                 animator.enabled = false;
         }
@@ -95,7 +99,7 @@ public class NPCHerido : MonoBehaviour
     {
         if (estaAcostado)
         {
-            transform.rotation = rotacionOriginal * Quaternion.Euler(-90f, 0f, 0f);
+            AplicarRotacionAcostado();
             if (animator != null && animator.enabled)
                 animator.enabled = false;
         }
@@ -161,7 +165,7 @@ public class NPCHerido : MonoBehaviour
         if (animator != null)
             animator.enabled = false;
 
-        transform.rotation = rotacionOriginal * Quaternion.Euler(-90f, 0f, 0f);
+        IniciarAcostado();
     }
 
     public void StandUp()
@@ -177,6 +181,7 @@ public class NPCHerido : MonoBehaviour
     private System.Collections.IEnumerator RutinaLevantar()
     {
         Quaternion inicio = transform.rotation;
+        Vector3 posInicio = transform.position;
         float duracion = 1f;
         float tiempo = 0f;
 
@@ -185,12 +190,13 @@ public class NPCHerido : MonoBehaviour
             tiempo += Time.deltaTime;
             float t = tiempo / duracion;
             transform.rotation = Quaternion.Slerp(inicio, rotacionOriginal, t);
+            transform.position = Vector3.Lerp(posInicio, new Vector3(posInicio.x, posYAcostado, posInicio.z), t);
             yield return null;
         }
 
         transform.rotation = rotacionOriginal;
+        transform.position = new Vector3(transform.position.x, posYAcostado, transform.position.z);
         estaAcostado = false;
-        rutinaLevantar = null;
 
         if (animator != null)
             animator.enabled = true;
@@ -201,6 +207,44 @@ public class NPCHerido : MonoBehaviour
 
     public void OnFootstep()
     {
+    }
+
+    private void IniciarAcostado()
+    {
+        transform.rotation = rotacionOriginal * Quaternion.Euler(-90f, 0f, 0f);
+
+        SkinnedMeshRenderer mr = GetComponentInChildren<SkinnedMeshRenderer>();
+        if (mr == null)
+        {
+            posYAcostado = transform.position.y;
+            return;
+        }
+
+        float bodyBottom = mr.bounds.min.y;
+        float bodyTop = mr.bounds.max.y;
+        float bodyCenter = (bodyBottom + bodyTop) * 0.5f;
+        float bodyHalfHeight = (bodyTop - bodyBottom) * 0.5f;
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(transform.position, out hit, 100f, NavMesh.AllAreas))
+        {
+            posYAcostado = hit.position.y + bodyHalfHeight;
+        }
+        else
+        {
+            posYAcostado = bodyCenter;
+        }
+
+        transform.position = new Vector3(transform.position.x, posYAcostado, transform.position.z);
+    }
+
+    private void AplicarRotacionAcostado()
+    {
+        transform.rotation = rotacionOriginal * Quaternion.Euler(-90f, 0f, 0f);
+        transform.position = new Vector3(
+            transform.position.x,
+            posYAcostado,
+            transform.position.z);
     }
 
     private void OnTriggerEnter(Collider other)

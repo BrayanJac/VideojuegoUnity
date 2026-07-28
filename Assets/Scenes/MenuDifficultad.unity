@@ -344,6 +344,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6a5d99a62291d44c955da7e0c64dfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuDificultad
+  btnEasy: {fileID: 2017639426}
+  btnMedium: {fileID: 404543088}
+  btnHard: {fileID: 1453240676}
+  textoSeleccion: {fileID: 0}
 --- !u!1 &599283709
 GameObject:
   m_ObjectHideFlags: 0
@@ -1078,7 +1082,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 441554007}
         m_TargetAssemblyTypeName: MenuDificultad, Assembly-CSharp
-        m_MethodName: Difficullty
+        m_MethodName: Hard
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

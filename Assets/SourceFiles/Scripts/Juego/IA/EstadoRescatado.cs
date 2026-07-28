@@ -12,6 +12,9 @@ public class EstadoRescatado : EstadoBase
     {
         Debug.Log($"{npc.name}: Rescatado. Entrando a la ambulancia.");
 
+        if (npc.SonidoGracias != null && AudioManager.instancia != null)
+            AudioManager.instancia.ReproducirEfecto(npc.SonidoGracias);
+
         if (npc.Salud != null)
             npc.Salud.DetenerDeterioro();
 
@@ -34,6 +37,8 @@ public class EstadoRescatado : EstadoBase
                 }
             }
         }
+
+        npc.EstaRescatado = true;
 
         if (ContadorRescates.Instance != null)
             ContadorRescates.Instance.RegistrarRescate();

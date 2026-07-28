@@ -24,8 +24,18 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    private bool EsItemMedico(ItemData item)
+    {
+        return item.tipoItem == TipoItem.MedKit ||
+               item.tipoItem == TipoItem.Analgesico ||
+               item.tipoItem == TipoItem.Vendaje ||
+               item.tipoItem == TipoItem.Adrenalina;
+    }
+
     public void AgregarItem(ItemData item)
     {
+        int cantidadAgregar = EsItemMedico(item) ? 2 : 1;
+
         // Buscar si el objeto ya existe en el inventario
         foreach (InventorySlot slot in inventario)
         {
@@ -33,7 +43,7 @@ public class InventoryManager : MonoBehaviour
             {
                 if (item.esApilable)
                 {
-                    slot.cantidad++;
+                    slot.cantidad += cantidadAgregar;
                     MostrarInventario();
                     OnInventoryChanged?.Invoke();
                     return;
@@ -42,7 +52,9 @@ public class InventoryManager : MonoBehaviour
         }
 
         // Si no existe, crear un nuevo espacio
-        inventario.Add(new InventorySlot(item));
+        InventorySlot nuevoSlot = new InventorySlot(item);
+        nuevoSlot.cantidad = cantidadAgregar;
+        inventario.Add(nuevoSlot);
 
         MostrarInventario();
         OnInventoryChanged?.Invoke();
@@ -56,7 +68,7 @@ public class InventoryManager : MonoBehaviour
         {
             if (slot == null)
             {
-                Debug.LogError("Hay un slot vacío en el inventario");
+                Debug.LogError("Hay un slot vacï¿½o en el inventario");
                 continue;
             }
 
