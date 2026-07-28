@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(NPCHerido))]
 public class NPCHeridoInteractuable : MonoBehaviour
 {
-    private float distanciaInteraccion = 24f;
+    private float distanciaInteraccion = 16f;
 
     private bool jugadorCerca;
     private NPCHerido npc;

@@ -23,7 +23,7 @@ public class NPCSalud : MonoBehaviour
 
     [Header("Jugador")]
     public Transform jugador;
-    private float distanciaMostrar = 24f;
+    private float distanciaMostrar = 16f;
 
     private float porcentajeVida;
     public float PorcentajeVida => porcentajeVida;
@@ -82,6 +82,18 @@ public class NPCSalud : MonoBehaviour
     void ActualizarVisibilidadUI()
     {
         bool mostrar = false;
+
+        NPCHerido herido = GetComponent<NPCHerido>();
+        if (herido != null && herido.EstaRescatado)
+        {
+            if (canvasBarra != null)
+                canvasBarra.enabled = false;
+            if (textoPorcentaje != null)
+                textoPorcentaje.gameObject.SetActive(false);
+            if (alertaCritica != null)
+                alertaCritica.SetActive(false);
+            return;
+        }
 
         if (jugador != null)
         {

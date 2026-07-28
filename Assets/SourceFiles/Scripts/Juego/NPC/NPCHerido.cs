@@ -213,26 +213,18 @@ public class NPCHerido : MonoBehaviour
     {
         transform.rotation = rotacionOriginal * Quaternion.Euler(-90f, 0f, 0f);
 
-        SkinnedMeshRenderer mr = GetComponentInChildren<SkinnedMeshRenderer>();
-        if (mr == null)
-        {
-            posYAcostado = transform.position.y;
-            return;
-        }
-
-        float bodyBottom = mr.bounds.min.y;
-        float bodyTop = mr.bounds.max.y;
-        float bodyCenter = (bodyBottom + bodyTop) * 0.5f;
-        float bodyHalfHeight = (bodyTop - bodyBottom) * 0.5f;
-
         NavMeshHit hit;
-        if (NavMesh.SamplePosition(transform.position, out hit, 100f, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(transform.position, out hit, 200f, NavMesh.AllAreas))
         {
-            posYAcostado = hit.position.y + bodyHalfHeight;
+            float diff = hit.position.y - transform.position.y;
+            if (diff > -1f && diff < 3f)
+                posYAcostado = hit.position.y + 0.5f;
+            else
+                posYAcostado = transform.position.y;
         }
         else
         {
-            posYAcostado = bodyCenter;
+            posYAcostado = transform.position.y;
         }
 
         transform.position = new Vector3(transform.position.x, posYAcostado, transform.position.z);

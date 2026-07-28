@@ -3,14 +3,16 @@ using UnityEngine.InputSystem;
 
 public class InstructionsUI : MonoBehaviour
 {
-    public GameObject panelInstrucciones;
+    public GameObject imgControles;
+    public GameObject fondoPausa;
     public PlayerMovement playerMovement;
+    public GameObject crosshair;
 
     void Update()
     {
         if (Keyboard.current.iKey.wasPressedThisFrame)
         {
-            if (panelInstrucciones.activeSelf)
+            if (imgControles.activeSelf)
             {
                 CerrarInstrucciones();
             }
@@ -23,8 +25,11 @@ public class InstructionsUI : MonoBehaviour
 
     void AbrirInstrucciones()
     {
-        panelInstrucciones.SetActive(true);
-        
+        fondoPausa.SetActive(true);
+        imgControles.SetActive(true);
+
+        if (crosshair != null) crosshair.SetActive(false);
+
         playerMovement.puedeMoverse = false;
 
         Cursor.lockState = CursorLockMode.None;
@@ -33,7 +38,10 @@ public class InstructionsUI : MonoBehaviour
 
     public void CerrarInstrucciones()
     {
-        panelInstrucciones.SetActive(false);
+        fondoPausa.SetActive(false);
+        imgControles.SetActive(false);
+
+        if (crosshair != null) crosshair.SetActive(true);
 
         playerMovement.puedeMoverse = true;
 

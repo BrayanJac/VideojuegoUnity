@@ -8,6 +8,7 @@ public class MenuPausa : MonoBehaviour
     public InstructionsUI instruccionesUI;
     public RadialMenu radialMenu;
     public GameObject fondoPausa;
+    public GameObject crosshair;
 
     private bool pausado = false;
 
@@ -49,12 +50,13 @@ public class MenuPausa : MonoBehaviour
 
         instruccionesUI.CerrarInstrucciones();
         radialMenu.CerrarMenu();
+        if (crosshair != null) crosshair.SetActive(false);
         fondoPausa.SetActive(true);
         imgPausa.SetActive(true);
         
         Time.timeScale = 0f;
 
-        // Liberar mouse para los botones del menú
+        // Liberar mouse para los botones del menï¿½
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -66,6 +68,7 @@ public class MenuPausa : MonoBehaviour
 
         pausado = false;
 
+        if (crosshair != null) crosshair.SetActive(true);
         fondoPausa.SetActive(false);
         imgPausa.SetActive(false);
 

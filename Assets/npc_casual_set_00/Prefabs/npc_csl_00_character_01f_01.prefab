@@ -305,7 +305,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 120, y: 18}
+  m_SizeDelta: {x: 120, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6283595584999701817
 CanvasRenderer:
@@ -943,14 +943,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0027d385bb36e004cb0c370fe7024866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCHerido
-  pacienteCritico: 0
-  tiempoCritico: 60
-  radioDeteccion: 20
-  velocidadSeguir: 28
-  distanciaSeguimiento: 4
-  distanciaRescate: 12
-  tiempoCuracion: 5
   sonidoAyuda: {fileID: 8300000, guid: 000ac24085a6fb44bae0444420351464, type: 3}
+  sonidoGracias: {fileID: 0}
 --- !u!114 &-9058768351965131878
 MonoBehaviour:
   m_ObjectHideFlags: 0
